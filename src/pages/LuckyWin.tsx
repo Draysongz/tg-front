@@ -156,7 +156,7 @@ const LuckyWin: React.FC = () => {
                   <Text fontSize={"14px"}>
                     {formatProfitPerHour(profitPerHour)}
                   </Text>
-                  <Info size={16} bg={"#43433b"} />
+                  <Info size={16}  />
                 </Flex>
               </Box>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>

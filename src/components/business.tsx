@@ -1,4 +1,4 @@
-import { Flex, Button, Box, Text, Image } from "@chakra-ui/react";
+import { Flex, Box, Text, Image } from "@chakra-ui/react";
 
 const businessArray = [
   {
