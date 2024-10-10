@@ -1,6 +1,5 @@
-import { Box, ChakraProvider } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import customTheme from "./components/theme"
 import HomePage from "./pages/HomePage";
 import Mine from "./pages/Mine";
 import Activities from "./pages/Activities";
@@ -14,7 +13,7 @@ import LuckyWin from "./pages/LuckyWin";
 function App() {
 
   return (
-    <ChakraProvider theme={customTheme}>
+
     <Box width={'100vw'} overflowX={'hidden'} fontFamily={'sans-serif'}
     >
       <Router>
@@ -32,7 +31,7 @@ function App() {
           </Routes>
         </Router>
     </Box>
-    </ChakraProvider>
+
   )
 }
 
