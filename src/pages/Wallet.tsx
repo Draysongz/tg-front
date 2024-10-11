@@ -2,6 +2,7 @@ import { Box, Flex, Text, Button, Image, Icon } from "@chakra-ui/react";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import NavigationBar from "../components/NavigationBar";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 const Wallet: React.FC = () => {
   const balanceArray = [
@@ -78,29 +79,8 @@ const Wallet: React.FC = () => {
           <Text fontSize={"17px"} fontWeight={700}>
             My Assets
           </Text>
-          <Button
-            bg={"#319cdf"}
-            p={"10px 12px"}
-            width={"199px"}
-            height={"40px"}
-            display={"flex"}
-            gap={2}
-            alignItems={"center"}
-            color={"white"}
-            borderRadius={"25px"}
-          >
-            <Image src="/wallet.webp" w={"17px"} />
-            <Text
-              fontSize={"14px"}
-              display={"flex"}
-              alignItems={"center"}
-              gap={1}
-              fontWeight={400}
-            >
-              Connect your wallet
-              <Icon as={FaAngleRight} />
-            </Text>
-          </Button>
+
+          <TonConnectButton />
         </Flex>
 
         <Box
