@@ -48,14 +48,14 @@ function App() {
           <Routes>
             <Route index element={<HomePage userData={userData}/>}  />
             <Route path="/mine" element={<Mine userData={user} token={token} />}/>
-            <Route path="/tasks" element={<Activities userData={user} />}/>
+            <Route path="/tasks" element={<Activities userData={user} token={token} />}/>
             <Route path="/wallet" element={<Wallet   />} />
             <Route path="/daily" element={<Daily userData={user}  />}/>
             <Route path="/settings" element={<Settings />}/>
             <Route path="/exchange" element={<Exchange />}/>
             <Route path="/level" element={<Levels />}/>
             <Route path="/boost" element={<Boosters userData={user} token={token}/>}/> 
-            <Route path="/roulette" element={<LuckyWin />}/> 
+            <Route path="/roulette" element={<LuckyWin userData={user}/>}/> 
             <Route path="/qualify" element={<Airdrop />}/> 
           </Routes>
         </Router>

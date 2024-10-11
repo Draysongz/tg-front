@@ -1,7 +1,27 @@
 import { Box, Flex, Button, Text, Icon } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useState, useEffect } from "react";
+import { useUserAPI } from "../hooks/useUserApi";
 
-export default function Friends({userData}: {userData: any}) {
+export default function Friends({userData, token}: {userData: any, token: any}) {
+  const [referredUser, setReferredUsers] = useState<any[]>([]);
+
+  const {fetchRefferals} = useUserAPI(userData?.telegramId, token)
+
+  useEffect(()=>{
+    const fetchRef = async ()=>{
+      const refUsers = await fetchRefferals()
+      console.log("ref users from ref page", refUsers)
+       setReferredUsers(refUsers.referredUsers || [])
+    }
+
+    if(userData){
+      fetchRef()
+    }
+  }, [userData])
+
+  console.log(referredUser)
+
   const refLink = `https://t.me/Slothgames_bot?start=${userData.telegramId}`
 
 

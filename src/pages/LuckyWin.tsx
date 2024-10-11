@@ -11,8 +11,14 @@ import { Link } from "react-router-dom";
 
 import NavigationBar from "../components/NavigationBar";
 import SpinRoulette from "../components/SpinRoulette";
+import userEventEmitter from "../utils/eventEmitter";
 
-const LuckyWin: React.FC = () => {
+
+interface luckyprops{
+  userData: any
+}
+
+const LuckyWin: React.FC <luckyprops>= ({userData}) => {
   const levelNames = [
     "Bronze", // From 0 to 4999 coins
     "Silver", // From 5000 coins to 24,999 coins
@@ -39,10 +45,38 @@ const LuckyWin: React.FC = () => {
     1000000000, // Lord
   ];
 
-  const [levelIndex, setLevelIndex] = useState(6);
-  const [points, setPoints] = useState(0);
-  
-  const profitPerHour = 126420;
+  const [levelIndex, setLevelIndex] = useState(0);
+const [points, setPoints] = useState(0);
+  const [profitPerHour, setProfitPerHour] = useState(0)
+  const [userDeets, setUserDeets] = useState<any>()
+
+
+      useEffect(() => {
+    const handleUserUpdate = (updatedUser: any) => {
+      // Update the state with the latest user data
+      console.log(updatedUser)
+      setUserDeets(updatedUser);
+      setProfitPerHour(updatedUser.profitPerHour)
+      setPoints(updatedUser.coins)
+      console.log("User data updated:", updatedUser);
+    };
+
+    // Listen for the 'userUpdated' event
+    userEventEmitter.on("userUpdated", handleUserUpdate);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      userEventEmitter.off("userUpdated", handleUserUpdate);
+    };
+  }, []);
+
+  useEffect(()=>{
+    if(userData){
+    setUserDeets(userData);
+    setProfitPerHour(userData.profitPerHour)
+    }
+  }, [userData])
+
 
 
 
@@ -105,7 +139,7 @@ const LuckyWin: React.FC = () => {
         <Box display={"flex"} flexDirection={"column"} gap={1} p={"0px 15px"}>
           <Flex gap={3} alignItems={'center'}>
             <Hamster size={20}/>
-            <Text fontSize={{base: "12px", sm: "16px"}}>Habibilord CEO </Text>
+            <Text fontSize={{base: "12px", sm: "16px"}}>{userDeets && `${userDeets.username} CEO`}  </Text>
           </Flex>
           <Flex alignItems={"center"} justifyContent={"space-between"}>
             <Box display={"flex"} flexDirection={"column"} gap={1} w={'25%'}>

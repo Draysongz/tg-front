@@ -144,7 +144,7 @@ const Mine: React.FC<mineProps> = ({userData, token}) => {
         <Box display={"flex"} flexDirection={"column"} gap={1} p={"0px 15px"}>
           <Flex gap={3} alignItems={"center"}>
             <Hamster size={20} />
-            <Text fontSize={{ base: "12px", sm: "16px" }}>Habibilord CEO </Text>
+            <Text fontSize={{ base: "12px", sm: "16px" }}>{userDeets && `${userDeets.username} CEO`}  </Text>
           </Flex>
           <Flex alignItems={"center"} justifyContent={"space-between"}>
             <Box display={"flex"} flexDirection={"column"} gap={1}>

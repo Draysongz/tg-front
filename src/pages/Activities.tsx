@@ -23,9 +23,10 @@ import userEventEmitter from "../utils/eventEmitter";
 
 interface activeprops{
   userData: any
+  token: any
 }
 
-const Activities: React.FC<activeprops> = ({userData}) => {
+const Activities: React.FC<activeprops> = ({userData, token}) => {
   const [userDeets, setUserDeets] = useState<any>()
 
  useEffect(() => {
@@ -253,7 +254,7 @@ const Activities: React.FC<activeprops> = ({userData}) => {
                 </Flex>
               </TabPanel>
               <TabPanel p={0}>
-                <Friends  userData={userData}/>
+                <Friends  userData={userData} token={token}/>
               </TabPanel>
             </TabPanels>
                 </Box>                
