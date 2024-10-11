@@ -2,11 +2,21 @@ import { Box, Flex, Button, Text, Icon } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { useUserAPI } from "../hooks/useUserApi";
+import { initUtils } from '@telegram-apps/sdk';
 
 export default function Friends({userData, token}: {userData: any, token: any}) {
   const [referredUser, setReferredUsers] = useState<any[]>([]);
 
   const {fetchRefferals} = useUserAPI(userData?.telegramId, token)
+
+
+  const handleInviteFriend = () => {
+    const utils = initUtils()
+    const inviteLink = `https://t.me/Slothgames_bot?start=${userData.telegramId}`
+    const shareText = `Join me on this awesome Telegram mini app!`
+    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
+    utils.openTelegramLink(fullUrl)
+  }
 
   useEffect(()=>{
     const fetchRef = async ()=>{
@@ -69,6 +79,7 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
             gap={2}
             bg={"#2b2b2be2"}
             color={"rgb(265, 187, 95)"}
+            onClick={handleInviteFriend}
           >
             <Icon />
             <Text>Share invite link</Text>
