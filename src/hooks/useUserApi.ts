@@ -196,6 +196,7 @@ const refillTaps = async () => {
 
       // Emit the user updated event
       setUser(updatedUser)
+      userEventEmitter.emit('userUpdated', updatedUser);
 
       return updatedUser;
     } catch (err) {
