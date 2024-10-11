@@ -8,7 +8,7 @@ import App from "./App.tsx";
 import './index.css';
 
 const manifestUrl =
-  "https://raw.githubusercontent.com/draysongz/dreamerzclone/main/public/manifest.json";
+  "https://raw.githubusercontent.com/draysongz/tg-front/main/public/manifest.json";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
