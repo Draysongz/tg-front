@@ -253,7 +253,7 @@ const Activities: React.FC<activeprops> = ({userData}) => {
                 </Flex>
               </TabPanel>
               <TabPanel p={0}>
-                <Friends />
+                <Friends  userData={userDeets}/>
               </TabPanel>
             </TabPanels>
                 </Box>                

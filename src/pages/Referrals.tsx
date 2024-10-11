@@ -1,7 +1,13 @@
 import { Box, Flex, Button, Text, Icon } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-export default function Friends() {
+export default function Friends({userData}: {userData: any}) {
+  const refLink = `https://t.me/Slothgames_bot?start=${userData.telegramId}`
+
+
+  const copyRefLink = async()=>{
+    await navigator.clipboard.writeText(refLink)
+  }
   return (
     <Box
       display={"flex"}
@@ -53,6 +59,7 @@ export default function Friends() {
             gap={2}
             bg={"#2b2b2be2"}
             color={"rgb(265, 187, 95)"}
+            onClick={copyRefLink}
           >
             <Icon />
             <Text>Copy</Text>
