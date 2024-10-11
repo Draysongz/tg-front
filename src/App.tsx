@@ -12,6 +12,7 @@ import Levels from "./pages/Levels";
 import Boosters from "./pages/Booster";
 import LuckyWin from "./pages/LuckyWin";
 import Airdrop from "./pages/Airdrop";
+import Converter from "./pages/converter";
 function App() {
 
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/boost" element={<Boosters />}/> 
             <Route path="/roulette" element={<LuckyWin />}/> 
             <Route path="/qualify" element={<Airdrop />}/> 
+            <Route path="/convert" element={<Converter />}/> 
           </Routes>
         </Router>
     </Box>
