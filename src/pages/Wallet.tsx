@@ -1,7 +1,23 @@
-import { Box, Flex, Text, Button, Image, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Image,
+  Icon,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
+import { TiCancel } from "react-icons/ti";
 
 const Wallet: React.FC = () => {
   const balanceArray = [
@@ -49,6 +65,7 @@ const Wallet: React.FC = () => {
     },
   ];
 
+  const {isOpen, onClose, onOpen} = useDisclosure()
   return (
     <Box
       display={"flex"}
@@ -162,6 +179,7 @@ const Wallet: React.FC = () => {
             borderRadius={"10px"}
             display={"flex"}
             flexDirection={"column"}
+            onClick={onOpen}
           >
             <Image src="/withdraw.svg" w={"24px"} />
             <Text fontSize={"12px"} margin={"4px 0px 0px"}>
@@ -195,10 +213,12 @@ const Wallet: React.FC = () => {
             display={"flex"}
             flexDirection={"column"}
           >
+            <Link to={'/qualify'} className="w-[100] items-center justify-center flex flex-col">
             <Image src="/gift.svg" w={"24px"} />
             <Text fontSize={"12px"} margin={"4px 0px 0px"}>
               Airdrop
             </Text>
+            </Link>
           </Box>
         </Flex>
 
@@ -233,53 +253,105 @@ const Wallet: React.FC = () => {
               zIndex={0}
               width={"100%"}
               pb={32}
+              css={{
+                '&::-webkit-scrollbar': {
+                  display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+                },
+                '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+                'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+              }}
             >
-            <Box pb={32}>
-              {balanceArray.map((balance) => {
-                return (
-                  <Box
-                    bg={"#a4a4a433"}
-                    h={"71px"}
-                    width={"100%"}
-                    color={"white"}
-                    p={"16px"}
-                    borderRadius={"7.5px"}
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={2}
-                    mb={5}
-                  >
-                    <Image
-                      src={balance.imagePath}
-                      width={"30px"}
-                      borderRadius={"50%"}
-                    />
+              <Box pb={36} >
+                {balanceArray.map((balance) => {
+                  return (
                     <Box
+                      bg={"#a4a4a433"}
+                      h={"71px"}
+                      width={"100%"}
+                      color={"white"}
+                      p={"16px"}
+                      borderRadius={"7.5px"}
                       display={"flex"}
-                      width={"85%"}
-                      flexDirection={"column"}
+                      alignItems={"center"}
+                      gap={2}
+                      mb={5}
                     >
-                      <Flex fontSize={"14px"} justifyContent={"space-between"}>
-                        <Text>{balance.token}</Text>
-                        <Text>{balance.tokenAmount}</Text>
-                      </Flex>
-                      <Flex
-                        fontSize={"11px"}
-                        color={"#bababa"}
-                        justifyContent={"space-between"}
+                      <Image
+                        src={balance.imagePath}
+                        width={"30px"}
+                        borderRadius={"50%"}
+                      />
+                      <Box
+                        display={"flex"}
+                        width={"85%"}
+                        flexDirection={"column"}
                       >
-                        <Text>{balance.tokenName}</Text>
-                        <Text>{balance.cost}</Text>
-                      </Flex>
+                        <Flex
+                          fontSize={"14px"}
+                          justifyContent={"space-between"}
+                        >
+                          <Text>{balance.token}</Text>
+                          <Text>{balance.tokenAmount}</Text>
+                        </Flex>
+                        <Flex
+                          fontSize={"11px"}
+                          color={"#bababa"}
+                          justifyContent={"space-between"}
+                        >
+                          <Text>{balance.tokenName}</Text>
+                          <Text>{balance.cost}</Text>
+                        </Flex>
+                      </Box>
                     </Box>
-                  </Box>
-                );
-              })}
-            </Box>  
+                  );
+                })}
+              </Box>
             </Box>
           </Box>
         </Box>
       </Flex>
+
+
+
+      <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
+        <DrawerOverlay bg={'#303030c4'} />
+        <DrawerContent bg={'#0a0a0a'} borderTopRadius={'48px'}
+        height={'403px'}
+        p={'80px 16px 40px'}
+        borderTop={'5px solid #f3ba2f'}
+        boxShadow={'0px 0px 100px 10px #f3ba2f'}
+        >
+          <DrawerCloseButton color={'white'} bg={'#383838'} borderRadius={'50%'}  mt={10} mr={5}/>
+
+          <DrawerBody css={{
+    '&::-webkit-scrollbar': {
+      display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+    },
+    '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+    'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+  }}>
+            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+              <Icon as={TiCancel} boxSize={16} color={'white'}/>
+              <Text fontSize={'18px'} color={'white'} m={'12px 0px 0px'} p={'8px 0px'}>
+                WITHDRAWAL ACCESS LOCKED
+              </Text>
+              <Text fontSize={'14px'} color={'#bababa'} m={'12px 0px 0px'} p={'0px 0px 24px'} textAlign={'center'}>
+                You need to purchase atleast 2 Specials Cards in mine activity to unlock withdrawal access!2
+              </Text>
+            </Box>
+            
+          </DrawerBody>
+
+          <DrawerFooter>
+            
+            <Link to={'/mine'} className="w-[100%]">
+            <Button variant="outline" mr={3} width={'100%'} height={'48px'} bg={'#f5bb5f'} p={'12px 24px'} color={'black'} border={'none'} _hover={{bg: '#f5bb5f'}}>
+              Purchase Special Cards
+            </Button>
+              </Link>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
       <NavigationBar />
     </Box>
   );

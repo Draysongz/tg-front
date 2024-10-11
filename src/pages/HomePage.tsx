@@ -166,7 +166,9 @@ const HomePage: React.FC = () => {
               className="bg-[#43433b]/[0.6]"
               px={2}
             >
+              <Link to={'/exchange'}> 
               <Image src="/coinConvert.svg" w={{ base: "20px", sm: "32px" }} />
+              </Link>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
               <Box alignItems={"center"} textAlign={"center"}>
                 <Text color={"#85827d"} fontSize={"12px"}>
@@ -177,7 +179,7 @@ const HomePage: React.FC = () => {
                   <Text fontSize={"14px"}>
                     {formatProfitPerHour(profitPerHour)}
                   </Text>
-                  <Info size={16} bg={"#43433b"} />
+                  <Info size={16} />
                 </Flex>
               </Box>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
@@ -199,6 +201,7 @@ const HomePage: React.FC = () => {
           borderTopRadius={"48px"}
           className="top-glow"
           zIndex={0}
+          
 
         >
           <Box
@@ -216,8 +219,15 @@ const HomePage: React.FC = () => {
             gap={10}
             overflowY={"scroll"}
             pb={{base: 40, sm: 32}}
+            css={{
+              '&::-webkit-scrollbar': {
+                display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+              },
+              '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+              'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+            }}
             >
-            <Flex mt={5} w={'90%'} justifyContent={'space-between'} px={'10px'}>
+            <Flex mt={5} w={'90%'} justifyContent={'space-between'} px={'10px'}  >
               <Box display={'flex'} alignItems={'center'} justifyContent={'center'} borderRadius={'10px'} bg={"#272a2f"} height={'60px'} gap={2} color={'white'} width={{base: '150px', sm:'164px'}}>
                 <Image src={cursor} w={"30px"} />
                 <Text fontWeight={300}>
@@ -234,7 +244,7 @@ const HomePage: React.FC = () => {
               </Button>
                 </Link>
             </Flex>
-            <Flex width={'90%'} alignItems={'center'} justifyContent={'center'} gap={2}>
+            <Flex width={'90%'} alignItems={'center'} justifyContent={'center'} gap={2} >
                 <Image src="/sunflower.webp" w={'50px'}/>
                 <Text fontSize='32px' fontWeight={700} display={'flex'} gap={2}>{points.toLocaleString()}
                     <Text color={'#f5bb5f'}>SUNF</Text>
@@ -242,17 +252,17 @@ const HomePage: React.FC = () => {
             </Flex>
             
             <Flex>
-                <Box w={'320px'} h={'320px'} p={4} onClick={handleCardClick}>
+                <Box w={'220px'} h={'220px'} p={4} onClick={handleCardClick}>
                     <Image src="/sunflower.webp"/>
                 </Box>
             </Flex>
 
-            <Box display={'flex'} bg={"#272a2f"} width={'90%'} h={'100px'} p={'15px'} alignItems={'center'} justifyContent={'space-between'} borderRadius={'15px'}>
-                <Text fontSize={{sm: '32px'}} fontWeight={700} display={'flex'} gap={2}>
+            <Box display={'flex'} bg={"#272a2f"} width={'90%'} h={'85px'} p={'15px'} alignItems={'center'} justifyContent={'space-between'} borderRadius={'15px'}>
+                <Text fontSize={{sm: '24px'}} fontWeight={700} display={'flex'} gap={2}>
                     {points}
                     <Text color={'#f5bb5f'}>SUNF</Text>
                 </Text>
-                <Button bg={'#f5bb5f'} w={'150px'}fontSize={'xl'} h={'50px'} borderRadius={'15px'}>
+                <Button bg={'#f5bb5f'} w={'135px'}fontSize={'xl'} h={'50px'} borderRadius={'15px'}>
                     Claim
                 </Button>
             </Box>

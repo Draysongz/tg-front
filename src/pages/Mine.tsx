@@ -3,7 +3,6 @@ import {
   Box,
   Flex,
   Text,
-  Button,
   Image,
   Icon,
   Tabs,
@@ -159,7 +158,7 @@ const Mine: React.FC = () => {
                   <Text fontSize={"14px"}>
                     {formatProfitPerHour(profitPerHour)}
                   </Text>
-                  <Info size={16} bg={"#43433b"} />
+                  <Info size={16} />
                 </Flex>
               </Box>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
@@ -197,6 +196,7 @@ const Mine: React.FC = () => {
             flexDirection={"column"}
             gap={10}
             pb={{ base: 40, sm: 32 }}
+            
           >
             <Tabs
               variant="unstyled"
@@ -206,6 +206,7 @@ const Mine: React.FC = () => {
               height={"100%"}
               display={"flex"}
               flexDirection={"column"}
+              
             >
               {/* TabList with spacing and z-index */}
               <TabList
@@ -289,6 +290,13 @@ const Mine: React.FC = () => {
                   zIndex={0}
                   width={"100%"}
                   pb={36}
+                  css={{
+                    '&::-webkit-scrollbar': {
+                      display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+                    },
+                    '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+                    'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+                  }}
                 >
                   <TabPanels>
                     <TabPanel p={0}>

@@ -298,6 +298,7 @@ export default function Daily() {
         justifyContent={"center"}
         alignItems={"center"}
         pb={32}
+        
       >
 
         <Subheader />

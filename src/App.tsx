@@ -11,6 +11,7 @@ import Exchange from "./pages/Exchange";
 import Levels from "./pages/Levels";
 import Boosters from "./pages/Booster";
 import LuckyWin from "./pages/LuckyWin";
+import Airdrop from "./pages/Airdrop";
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/level" element={<Levels />}/>
             <Route path="/boost" element={<Boosters />}/> 
             <Route path="/roulette" element={<LuckyWin />}/> 
+            <Route path="/qualify" element={<Airdrop />}/> 
           </Routes>
         </Router>
     </Box>
