@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState , useEffect} from "react";
 import {
   Box,
   Flex,
@@ -19,8 +19,38 @@ import { MdGroups2 } from "react-icons/md";
 import Friends from "./Referrals";
 import { Link } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
+import userEventEmitter from "../utils/eventEmitter";
 
-const Activities: React.FC = () => {
+interface activeprops{
+  userData: any
+}
+
+const Activities: React.FC<activeprops> = ({userData}) => {
+  const [userDeets, setUserDeets] = useState<any>()
+
+         useEffect(() => {
+    const handleUserUpdate = (updatedUser: any) => {
+      // Update the state with the latest user data
+      console.log(updatedUser)
+      setUserDeets(updatedUser);
+      console.log("User data updated:", updatedUser);
+    };
+
+    // Listen for the 'userUpdated' event
+    userEventEmitter.on("userUpdated", handleUserUpdate);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      userEventEmitter.off("userUpdated", handleUserUpdate);
+    };
+  }, []);
+
+    useEffect(() => {
+    // Calculate the cost dynamically based on the user's current multitap level.
+    setUserDeets(userData)
+
+  }, [userData]);
+
   const blink = keyframes`
     0% { opacity: 1; }
     50% { opacity: 0; }
@@ -75,11 +105,11 @@ const Activities: React.FC = () => {
             p={"2px 10px"}
             borderRadius={"15px"}
             alignItems={"center"}
-            gap={1}
-            width={"54px"}
+            gap={3}
+            width={"auto"}
           >
             <Image src="/sunflower.webp" w={"15px"} />
-            <Text> 0 </Text>
+            <Text> {userDeets && userDeets.coins} </Text>
           </Flex>
         </Box>
 

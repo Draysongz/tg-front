@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+// import  { useState } from 'react';
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
 import NavigationBar from "../components/NavigationBar";
 const levelArrays = [
@@ -38,21 +38,21 @@ const levelArrays = [
 
 
 export default function Levels() {
-    const [currentLevel, setCurrentLevel] = useState(0);
+    // const [currentLevel, setCurrentLevel] = useState(0);
 
     // Function to go to the next slide
-const nextLevel = () => {
-    if (currentLevel < levelArrays.length - 1) {
-      setCurrentLevel((prev) => prev + 1);
-    }
-  };
+// const nextLevel = () => {
+//     if (currentLevel < levelArrays.length - 1) {
+//       setCurrentLevel((prev) => prev + 1);
+//     }
+//   };
   
-  // Function to go to the previous slide
-  const prevLevel = () => {
-    if (currentLevel > 0) {
-      setCurrentLevel((prev) => prev - 1);
-    }
-  };
+//   // Function to go to the previous slide
+//   const prevLevel = () => {
+//     if (currentLevel > 0) {
+//       setCurrentLevel((prev) => prev - 1);
+//     }
+//   };
 
   return (
     <Box
@@ -75,7 +75,7 @@ const nextLevel = () => {
         gap={5}
         pb={32}
         transition="transform 0.5s ease"
-        transform={`translateX(-${currentLevel * 100}%)`}
+        // transform={`translateX(-${currentLevel * 100}%)`}
       >
         {levelArrays.map((level) => (
         <Box

@@ -47,6 +47,8 @@ const HomePage: React.FC<profileProps> = ({userData}) => {
 
 
 
+
+
   const [levelIndex, setLevelIndex] = useState(0);
   const [points, setPoints] = useState(0);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
@@ -57,9 +59,14 @@ const HomePage: React.FC<profileProps> = ({userData}) => {
   const [pointsToAdd, setPointsToAdd] = useState(0)
   const [availableTaps, setAvailableTaps]= useState(0)
   const batchTimeout = useRef<NodeJS.Timeout | null>(null);
+   const [isTapGuruActive, setIsTapGuruActive] = useState(false);
  
 
   const {updateUserProfile, refillTaps} = useUserAPI(userData?.user.telegramId, userData?.token)
+
+  const queryString = window.location.search; // Get the query string
+  const urlParams = new URLSearchParams(queryString);
+  const tapguru = urlParams.get("tapguru")!
 
      useEffect(() => {
     const handleUserUpdate = (updatedUser: any) => {
@@ -119,6 +126,21 @@ useEffect(() => {
     })
     setPoints(0)
   }
+
+  useEffect(() => {
+    if (tapguru === "true" && !isTapGuruActive) {
+      setIsTapGuruActive(true);
+      setPointsToAdd((prev) => prev * 5);
+
+      // Revert pointsToAdd after 15 seconds
+      const timer = setTimeout(() => {
+        setPointsToAdd((prev) => prev / 5);
+        setIsTapGuruActive(false);
+      }, 15000); // 15 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [tapguru, isTapGuruActive]);
 
   const handleCardClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;

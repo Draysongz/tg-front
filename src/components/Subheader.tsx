@@ -3,7 +3,7 @@ import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
-export default function Subheader() {
+export default function Subheader({userData}: {userData: any}) {
     return(
         <Box height={'60px'} bg={'#272727'} w={'100%'} p={'10px 20px'} alignItems={'center'} display={'flex'} justifyContent={'space-between'}>
             <Box display={'flex'} w={'50%'} alignItems={'center'} justifyContent={'space-between'}>
@@ -41,9 +41,9 @@ export default function Subheader() {
                 <Text fontSize={'12px'}>
                     Balance
                 </Text>
-                <Flex alignItems={'center'} gap={1}>
+                <Flex alignItems={'center'} gap={2}>
                 <Image src="/coin.webp" w={'10px'}/>
-                <Text fontSize={'11px'}>0</Text>
+                <Text fontSize={'11px'}>{userData.coins}</Text>
                 </Flex>
                 </Flex>
 

@@ -33,6 +33,8 @@ interface UpdateUserProfileData {
   maxTaps?: Number;
   slots? : Number;
   tappingGuruUses?: Number;
+  multitap?: number
+  tapLimitBoost? : number
 
   // Add other fields as needed
 }
@@ -182,6 +184,29 @@ const refillTaps = async () => {
   };
 
 
+  const dailyCheckIn = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(
+        `https://0acc-18-133-182-234.ngrok-free.app/api/user/checkin`,
+        { userId },
+      );
+      const updatedUser = response.data.updatedUser;
+
+      // Emit the user updated event
+      setUser(updatedUser)
+
+      return updatedUser;
+    } catch (err) {
+      setError("Error during daily check-in");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return {
     user,
     loading,
@@ -191,6 +216,7 @@ const refillTaps = async () => {
     updateUserBalance,
     fetchAllUsers,
     refillTaps,
-    fetchRefferals
+    fetchRefferals,
+    dailyCheckIn
   };
 };
