@@ -1,5 +1,4 @@
-import { Box, Flex, Text, Button, Image, Icon } from "@chakra-ui/react";
-import { FaAngleRight } from "react-icons/fa6";
+import { Box, Flex, Text, Image, Icon } from "@chakra-ui/react";
 import { IoEyeOutline } from "react-icons/io5";
 import NavigationBar from "../components/NavigationBar";
 import { TonConnectButton } from "@tonconnect/ui-react";
