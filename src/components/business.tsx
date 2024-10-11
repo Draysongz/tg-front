@@ -163,6 +163,7 @@ export default function Business() {
         </Box>
       </Flex>
       <Drawer
+      
         isOpen={isDrawerOpen}
         placement="bottom"
         onClose={closeDrawer}
