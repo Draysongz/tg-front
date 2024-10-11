@@ -21,8 +21,13 @@ import Skills from "../components/skills";
 import Business from "../components/business";
 import Specials from "../components/specials";
 import { Link } from "react-router-dom";
+import userEventEmitter from "../utils/eventEmitter";
 
-const Mine: React.FC = () => {
+interface mineProps{
+  userData: any
+  token: any
+}
+const Mine: React.FC<mineProps> = ({userData, token}) => {
   const levelNames = [
     "Bronze", // From 0 to 4999 coins
     "Silver", // From 5000 coins to 24,999 coins
@@ -49,9 +54,37 @@ const Mine: React.FC = () => {
     1000000000, // Lord
   ];
 
-  const [levelIndex, setLevelIndex] = useState(6);
+  const [levelIndex, setLevelIndex] = useState(0);
   const [points, setPoints] = useState(0);
-  const profitPerHour = 126420;
+  const [profitPerHour, setProfitPerHour] = useState(0)
+  const [userDeets, setUserDeets] = useState<any>()
+
+
+      useEffect(() => {
+    const handleUserUpdate = (updatedUser: any) => {
+      // Update the state with the latest user data
+      console.log(updatedUser)
+      setUserDeets(updatedUser);
+      setProfitPerHour(updatedUser.profitPerHour)
+      setPoints(updatedUser.coins)
+      console.log("User data updated:", updatedUser);
+    };
+
+    // Listen for the 'userUpdated' event
+    userEventEmitter.on("userUpdated", handleUserUpdate);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      userEventEmitter.off("userUpdated", handleUserUpdate);
+    };
+  }, []);
+
+  useEffect(()=>{
+    if(userData){
+    setUserDeets(userData);
+    setProfitPerHour(userData.profitPerHour)
+    }
+  }, [userData])
 
   const calculateProgress = () => {
     if (levelIndex >= levelNames.length - 1) {
@@ -293,13 +326,13 @@ const Mine: React.FC = () => {
                     <TabPanel p={0}>
                       {/* Increase height here if you want more vertical space */}
                       <Box minHeight={"500px"}>
-                        <Skills />
+                        <Skills userData={userDeets} token={token} />
                       </Box>
                     </TabPanel>
                     <TabPanel p={0}>
                       {/* Content for Business */}
                       <Box minHeight={"500px"}>
-                        <Business />
+                        <Business userData={userDeets} token={token}/>
                         {/* Adjust the minHeight for content */}
                         {/* Business Content */}
                       </Box>
@@ -307,7 +340,7 @@ const Mine: React.FC = () => {
                     <TabPanel p={0}>
                       {/* Content for Assets */}
                       <Box minHeight={"500px"}>
-                        <Specials />
+                        <Specials userData={userDeets} token={token}/>
                         {/* Adjust the minHeight for content */}
                         {/* Assets Content */}
                       </Box>

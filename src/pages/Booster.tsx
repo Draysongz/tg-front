@@ -3,8 +3,17 @@ import "../index.css";
 import { MdOutlineChevronRight, MdBolt, MdInfoOutline } from "react-icons/md";
 
 import NavigationBar from "../components/NavigationBar";
+// import { useUserAPI } from "../hooks/useUserApi";
+// import { useState } from "react";
 
-const Boosters: React.FC = () => {
+interface boostprops{
+  userData: any
+  token: any
+}
+
+const Boosters: React.FC<boostprops> = () => {
+  // const {updateUserProfile} = useUserAPI(userData.telegramId, token)
+  // const [basePrice, setBasePrice ]= useState(2000)
   return (
     <Box
       display={"flex"}

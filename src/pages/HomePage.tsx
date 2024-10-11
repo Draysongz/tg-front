@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Flex, Text, Button, Image, Icon } from "@chakra-ui/react";
 import Hamster from "../icons/Hamster";
 import {
@@ -11,8 +11,14 @@ import "../index.css";
 import { Link } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import NavigationBar from "../components/NavigationBar";
+import { useUserAPI } from "../hooks/useUserApi";
+import userEventEmitter from "../utils/eventEmitter";
 
-const HomePage: React.FC = () => {
+interface profileProps{
+  userData: any
+}
+
+const HomePage: React.FC<profileProps> = ({userData}) => {
   const levelNames = [
     "Bronze", // From 0 to 4999 coins
     "Silver", // From 5000 coins to 24,999 coins
@@ -39,16 +45,82 @@ const HomePage: React.FC = () => {
     1000000000, // Lord
   ];
 
-  const [levelIndex, setLevelIndex] = useState(6);
+
+
+  const [levelIndex, setLevelIndex] = useState(0);
   const [points, setPoints] = useState(0);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
   );
-  const pointsToAdd = 1;
-  const profitPerHour = 126420;
+  const [profitPerHour, setProfitPerHour] = useState(0)
+  const [userDeets, setUserDeets] = useState<any>()
+  const [pointsToAdd, setPointsToAdd] = useState(0)
+  const [availableTaps, setAvailableTaps]= useState(0)
+  const batchTimeout = useRef<NodeJS.Timeout | null>(null);
+ 
+
+  const {updateUserProfile, refillTaps} = useUserAPI(userData?.user.telegramId, userData?.token)
+
+     useEffect(() => {
+    const handleUserUpdate = (updatedUser: any) => {
+      // Update the state with the latest user data
+      console.log(updatedUser)
+      setUserDeets(updatedUser);
+      setProfitPerHour(updatedUser.profitPerHour)
+      setPointsToAdd(updatedUser.multitap)
+      console.log("User data updated:", updatedUser);
+    };
+
+    // Listen for the 'userUpdated' event
+    userEventEmitter.on("userUpdated", handleUserUpdate);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      userEventEmitter.off("userUpdated", handleUserUpdate);
+    };
+  }, []);
 
 
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+
+useEffect(() => {
+    const handleRefill = async () => {
+      try {
+        await refillTaps();
+      } catch (err) {
+        console.error('Error refilling taps:', err);
+      }
+    };
+
+    handleRefill();
+
+    const updateUserHandler = (updatedUser: any) => {
+      console.log('User data updated:', updatedUser);
+    };
+
+    userEventEmitter.on('userUpdated', updateUserHandler);
+
+    return () => {
+      userEventEmitter.off('userUpdated', updateUserHandler);
+    };
+  }, []);
+
+  useEffect(()=>{
+    if(userData){
+    setUserDeets(userData.user);
+    setProfitPerHour(userData.user.profitPerHour)
+    setPointsToAdd(userData.user.multitap)
+    setAvailableTaps(userData.user.taps)
+    }
+  }, [userData])
+
+  const claimTaps= async ()=>{
+    await updateUserProfile({
+      coins: userDeets.coins + points
+    })
+    setPoints(0)
+  }
+
+  const handleCardClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -59,9 +131,29 @@ const HomePage: React.FC = () => {
     setTimeout(() => {
       card.style.transform = "";
     }, 100);
-
+    const newTaps = availableTaps - 1;
+    setAvailableTaps(newTaps);
     setPoints(points + pointsToAdd);
     setClicks([...clicks, { id: Date.now(), x: e.pageX, y: e.pageY }]);
+
+    if (!batchTimeout.current) {
+      batchTimeout.current = setTimeout(async () => {
+        try {
+          // Use the updated availableTaps and tapsBuffer for a consistent update
+          const tapsToUpdate = newTaps;
+          
+
+          await updateUserProfile({
+            taps: tapsToUpdate,
+          });
+        } catch (error) {
+          console.error('Error updating taps:', error);
+        } finally {
+          batchTimeout.current = null; // Reset the timeout reference
+        }
+      }, 1000);
+    }
+
   };
 
   const handleAnimationEnd = (id: number) => {
@@ -103,6 +195,15 @@ const HomePage: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [profitPerHour]);
+
+   useEffect(() => {
+    // Cleanup on component unmount
+    return () => {
+      if (batchTimeout.current) {
+        clearTimeout(batchTimeout.current);
+      }
+    };
+  }, []);
 
   return (
     <Box
@@ -221,7 +322,7 @@ const HomePage: React.FC = () => {
               <Box display={'flex'} alignItems={'center'} justifyContent={'center'} borderRadius={'10px'} bg={"#272a2f"} height={'60px'} gap={2} color={'white'} width={{base: '150px', sm:'164px'}}>
                 <Image src={cursor} w={"30px"} />
                 <Text fontWeight={300}>
-                    497 taps left
+                    {userDeets && availableTaps} left
                 </Text>
               </Box>
                 <Link to={'/boost'}>
@@ -236,7 +337,7 @@ const HomePage: React.FC = () => {
             </Flex>
             <Flex width={'90%'} alignItems={'center'} justifyContent={'center'} gap={2}>
                 <Image src="/sunflower.webp" w={'50px'}/>
-                <Text fontSize='32px' fontWeight={700} display={'flex'} gap={2}>{points.toLocaleString()}
+                <Text fontSize='32px' fontWeight={700} display={'flex'} gap={2}>{userDeets && userDeets.coins}
                     <Text color={'#f5bb5f'}>SUNF</Text>
                 </Text>
             </Flex>
@@ -252,7 +353,7 @@ const HomePage: React.FC = () => {
                     {points}
                     <Text color={'#f5bb5f'}>SUNF</Text>
                 </Text>
-                <Button bg={'#f5bb5f'} w={'150px'}fontSize={'xl'} h={'50px'} borderRadius={'15px'}>
+                <Button bg={'#f5bb5f'} w={'150px'}fontSize={'xl'} h={'50px'} borderRadius={'15px'} onClick={claimTaps}>
                     Claim
                 </Button>
             </Box>
