@@ -28,7 +28,7 @@ interface activeprops{
 const Activities: React.FC<activeprops> = ({userData}) => {
   const [userDeets, setUserDeets] = useState<any>()
 
-         useEffect(() => {
+ useEffect(() => {
     const handleUserUpdate = (updatedUser: any) => {
       // Update the state with the latest user data
       console.log(updatedUser)
@@ -253,7 +253,7 @@ const Activities: React.FC<activeprops> = ({userData}) => {
                 </Flex>
               </TabPanel>
               <TabPanel p={0}>
-                <Friends  userData={userDeets}/>
+                <Friends  userData={userDeets && userDeets}/>
               </TabPanel>
             </TabPanels>
                 </Box>                
