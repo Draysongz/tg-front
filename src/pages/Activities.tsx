@@ -186,7 +186,14 @@ const Activities: React.FC = () => {
                 height={"calc(100vh - 160px)"}
                 zIndex={0}
                 width={"100%"}
-                pb={36}>
+                pb={36}
+                css={{
+                  '&::-webkit-scrollbar': {
+                    display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+                  },
+                  '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+                  'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+                }}>
 
             <TabPanels>
               <TabPanel p={0}>

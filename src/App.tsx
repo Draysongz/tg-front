@@ -13,6 +13,7 @@ import LuckyWin from "./pages/LuckyWin";
 import { useState, useEffect } from "react";
 import { useUserLogin } from "./hooks/useAuth";
 import WebApp from '@twa-dev/sdk'
+import Airdrop from "./pages/Airdrop";
 function App() {
 //  const [telegramInitData, setTelegramInitData] = useState<string>("");
   const queryString = window.location.search; // Get the query string
@@ -54,6 +55,7 @@ function App() {
             <Route path="/level" element={<Levels />}/>
             <Route path="/boost" element={<Boosters userData={user} token={token}/>}/> 
             <Route path="/roulette" element={<LuckyWin />}/> 
+            <Route path="/qualify" element={<Airdrop />}/> 
           </Routes>
         </Router>
     </Box>

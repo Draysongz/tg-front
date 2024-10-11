@@ -229,6 +229,7 @@ const Mine: React.FC<mineProps> = ({userData, token}) => {
             flexDirection={"column"}
             gap={10}
             pb={{ base: 40, sm: 32 }}
+            
           >
             <Tabs
               variant="unstyled"
@@ -238,6 +239,7 @@ const Mine: React.FC<mineProps> = ({userData, token}) => {
               height={"100%"}
               display={"flex"}
               flexDirection={"column"}
+              
             >
               {/* TabList with spacing and z-index */}
               <TabList
@@ -321,6 +323,13 @@ const Mine: React.FC<mineProps> = ({userData, token}) => {
                   zIndex={0}
                   width={"100%"}
                   pb={36}
+                  css={{
+                    '&::-webkit-scrollbar': {
+                      display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+                    },
+                    '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+                    'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+                  }}
                 >
                   <TabPanels>
                     <TabPanel p={0}>

@@ -195,9 +195,16 @@ const LuckyWin: React.FC = () => {
             gap={10}
             overflowY={"scroll"}
             pb={{base: 40, sm: 32}}
+            css={{
+              '&::-webkit-scrollbar': {
+                display: 'none', /* Hide scrollbar for Chrome, Safari, and newer Edge */
+              },
+              '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+              'scrollbar-width': 'none', /* Hide scrollbar for Firefox */
+            }}
             >
             
-            <Text fontSize={'20px'} color={'white'}>
+            <Text fontSize={'24px'} color={'white'} fontWeight={700} mt={10}>
                 Lucky Spin & Win
             </Text>
 
