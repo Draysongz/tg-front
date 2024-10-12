@@ -1,10 +1,29 @@
 import { Box, Flex, Button, Text, Icon } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { RiShare2Line } from "react-icons/ri";
+import { BsLink45Deg } from "react-icons/bs";
+
+import { HiUser } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useUserAPI } from "../hooks/useUserApi";
 import { initUtils } from '@telegram-apps/sdk';
 
 export default function Friends({userData, token}: {userData: any, token: any}) {
+  const FriendList = [
+  {
+    name: "Habibilord",
+    level: "Bronze",
+    funds: "4 000",
+  },
+  {
+    name: "Cryptodray",
+    level: "Platinum",
+    funds: "500 000",
+  },
+]
+
+
   const [referredUser, setReferredUsers] = useState<any[]>([]);
 
   const {fetchRefferals} = useUserAPI(userData?.telegramId, token)
@@ -81,7 +100,7 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
             color={"rgb(265, 187, 95)"}
             onClick={handleInviteFriend}
           >
-            <Icon />
+            <Icon as={RiShare2Line}/>
             <Text>Share invite link</Text>
           </Button>
           <Button
@@ -92,7 +111,7 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
             color={"rgb(265, 187, 95)"}
             onClick={copyRefLink}
           >
-            <Icon />
+            <Icon as={BsLink45Deg}/>
             <Text>Copy</Text>
           </Button>
         </Flex>
@@ -168,14 +187,42 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
                 <Text fontSize={'17px'} p={'0px 0px 0px 4px'} color={'#ffffffe0'} fontWeight={700}>Frens list</Text>
 
                 <Button bgColor={'#2b2b2be2'} width={'149px'} height={'37px'} color={'#e7e7e7d6'} fontSize={'15px'} p={'8px 12px'} gap={3} alignItems={'center'} fontWeight={700}>
+                  <Link to={'/claim'}>
                     Claim rewards 
+                  </Link>
                     <Icon as={FaArrowRightLong} color={'#f5bb5f'} boxSize={3} mt={'3px'}/>
                 </Button>
             </Flex>
-            <Flex h={'150px'} justifyContent={'center'} alignItems={'center'}>
-                <Text fontSize={'14px'} color={'#d0d0d0'} p={'32px 20px 0px'} w={'335px'} h={'104px'}>
-                You have no frens 👨‍👦‍👦 Refer your frens and family, get 10% of their earnings & unlock more rewards!
+            <Flex justifyContent={'center'} alignItems={'center'} mt={5} flexDirection={'column'} gap={5}>
+              {FriendList.map((friend) => {
+                return(
+
+              <Flex width={'100%'} h={'70px'} borderRadius={'10px'} alignItems={'center'} px={'10px'} bg={'#2b2b2be2'} justifyContent={'space-between'}>
+                <Flex alignItems={'center'}  gap={2}>
+                <Box w={'40px'} h={'40px'} bg={'#a4a4a433'} borderRadius={'50%'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+
+                <Icon as={HiUser} boxSize={5} color={'#ffbb5f'}/>
+                </Box>
+                <Box>
+                <Text fontSize={'14px'}>
+                  {friend.name}
                 </Text>
+                <Text fontSize={'11px'} textAlign={'left'} color={'#ffffff9e'}>
+                  {friend.level}
+                </Text>
+                </Box>
+                </Flex>
+
+                <Flex alignItems={'center'} justifyContent={'center'} gap={2}>
+                    <Text fontSize={'16px'} fontWeight={700}>
+                      {friend.funds}
+                    </Text>
+                    <Text fontSize={'11px'}> SUNF</Text>
+                </Flex>
+              </Flex>
+
+                );
+            })}
             </Flex>
         </Box>
       </Flex>

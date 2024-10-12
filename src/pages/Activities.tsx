@@ -20,6 +20,8 @@ import Friends from "./Referrals";
 import { Link } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 import userEventEmitter from "../utils/eventEmitter";
+import Social from "../components/social";
+import Videos from "../components/videos";
 
 interface activeprops{
   userData: any
@@ -238,6 +240,7 @@ const Activities: React.FC<activeprops> = ({userData, token}) => {
                     <Text color={"#c6c6c6"}>
                         Perform social tasks to earn more  Maxtap tokens and stay updated!
                     </Text>
+                    <Social />
                 </Flex>
               </TabPanel>
               <TabPanel p={0}>
@@ -251,6 +254,7 @@ const Activities: React.FC<activeprops> = ({userData, token}) => {
                     <Text color={"#c6c6c6"}>
                         Watch video ads and earn high token rewards Daily!
                     </Text>
+                    <Videos />
                 </Flex>
               </TabPanel>
               <TabPanel p={0}>

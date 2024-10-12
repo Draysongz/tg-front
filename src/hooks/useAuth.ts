@@ -7,6 +7,8 @@ interface UseUserLoginProps {
   loading: boolean;
 }
 
+const baseURL = 'https://5a59-102-88-36-176.ngrok-free.app/api'
+
 // Custom Hook for handling user login
 export const useUserLogin = (initData: string, referralCode?: string): UseUserLoginProps => {
   const [userData, setUserData] = useState<any>(null);  // Replace `any` with proper user data interface
@@ -19,7 +21,7 @@ export const useUserLogin = (initData: string, referralCode?: string): UseUserLo
     const loginUser = async () => {
       setLoading(true);
       try {
-        const response = await axios.post('https://0acc-18-133-182-234.ngrok-free.app/api/auth', {
+        const response = await axios.post(`${baseURL}/auth`, {
           initData,
           referralCode,
         });

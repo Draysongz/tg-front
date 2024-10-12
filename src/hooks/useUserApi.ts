@@ -48,12 +48,14 @@ export const useUserAPI = (userId: string, token?: string) => {
     userEventEmitter.emit('userUpdated', user);
   }, [user])
 
+  const BaseUrl = 'https://5a59-102-88-36-176.ngrok-free.app/api'
+
   // Get user profile
   const fetchUserProfile = async () => {
     setLoading(true);
     try {
       const response = await axios.get<User>(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/profile/${userId}`,
+        `${BaseUrl}/profile/${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export const useUserAPI = (userId: string, token?: string) => {
     setLoading(true);
     try {
       const response = await axios.put<User>(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/profile/${userId}`,
+        `${BaseUrl}/profile/${userId}`,
         data
       );
       console.log("user gotten from userapi after updating", response.data);
@@ -96,7 +98,7 @@ export const useUserAPI = (userId: string, token?: string) => {
     setLoading(true);
     try {
       const response = await axios.put<User>(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/balance/${userId}`,
+        `${BaseUrl}/balance/${userId}`,
         { amount }
       );
       setUser(response.data);
@@ -113,7 +115,7 @@ export const useUserAPI = (userId: string, token?: string) => {
     setLoading(true);
     try {
       const response = await axios.get<any>(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/users`, {
+        `${BaseUrl}/users`, {
           headers: {
             'Content-Type': 'application/json',
             "ngrok-skip-browser-warning":  true,
@@ -136,7 +138,7 @@ export const useUserAPI = (userId: string, token?: string) => {
   setLoading(true);
   try {
     const response = await axios.get<any>(
-      `https://0acc-18-133-182-234.ngrok-free.app/api/users/${userId}`, // API URL with userId for fetching referrals
+      `${BaseUrl}/users/${userId}`, // API URL with userId for fetching referrals
       {
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +164,7 @@ const refillTaps = async () => {
     setError(null);
     try {
       const response = await axios.post(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/user/refill`,
+        `${BaseUrl}/user/refill`,
         { userId },
       );
 
@@ -189,7 +191,7 @@ const refillTaps = async () => {
     setError(null);
     try {
       const response = await axios.post(
-        `https://0acc-18-133-182-234.ngrok-free.app/api/user/checkin`,
+        `${BaseUrl}/user/checkin`,
         { userId },
       );
       const updatedUser = response.data.updatedUser;
