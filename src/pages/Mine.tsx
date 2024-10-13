@@ -12,7 +12,7 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import Hamster from "../icons/Hamster";
-import { binanceLogo, dollarCoin } from "../images";
+import { dollarCoin } from "../images";
 import Info from "../icons/Info";
 import { IoSettingsSharp } from "react-icons/io5";
 import "../index.css";
