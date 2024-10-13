@@ -17,7 +17,108 @@ import { Link } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 import Reward from "../components/refRewards";
 import Challenges from "../components/challenges";
-export default function Claim() {
+import useTasks from "../hooks/useTasks";
+import { useEffect, useState } from "react";
+import userEventEmitter from "../utils/eventEmitter";
+import { useUserAPI } from "../hooks/useUserApi";
+
+export default function Claim({userData, token}: { userData: any, token: any}) {
+ const [inviteTasks, setInviteTasks] = useState<any[]>([]);
+ const [challengeTasks, setChallengeTasks] = useState<any[]>([]);
+ const [userTasks, setUserTasks]= useState<any[]>([])
+  const [userDeets, setUserDeets] = useState<any>();
+ const { getTasks, getUserTasks, claimTaskReward } = useTasks(userData.telegramId, token);
+   const [referredUsers, setReferredUsers] = useState<any[]>([]);
+
+   const { fetchRefferals } = useUserAPI(userData?.telegramId, token);
+
+ useEffect(() => {
+   const taskEvent = async () => {
+     try {
+       const allTasks = await getTasks(); // Fetch all tasks
+       const specificTasks = await getUserTasks(); // Fetch user-specific task progress
+
+       // Filter and sort tasks by category
+       const inviteTasksSorted = allTasks
+         .filter((task: any) => task.category === "INVITE")
+         .sort((a: any, b: any) => a.reward - b.reward); // Sort by reward (ascending)
+
+       const challengeTasksSorted = allTasks
+         .filter((task: any) => task.category === "CHALLENGE")
+         .sort((a: any, b: any) => a.reward - b.reward); // Sort by reward (ascending)
+
+       setInviteTasks(inviteTasksSorted);
+       setChallengeTasks(challengeTasksSorted);
+
+       // Optionally: If you need to do something with specific tasks
+       setUserTasks(specificTasks);
+     } catch (error) {
+       console.error("Error fetching tasks:", error);
+     }
+   };
+
+   if (userData) {
+    setUserDeets(userData)
+     taskEvent();
+   }
+ }, [userData]);
+
+   useEffect(() => {
+     const fetchRef = async () => {
+       const refUsers = await fetchRefferals();
+       console.log("ref users from ref page", refUsers);
+       setReferredUsers(refUsers.referredUsers || []);
+     };
+
+     if (userData) {
+       fetchRef();
+     }
+   }, [userData]);
+
+      useEffect(() => {
+        const handleUserUpdate = (updatedUser: any) => {
+          // Update the state with the latest user data
+          console.log(updatedUser);
+          setUserDeets(updatedUser);
+          console.log("User data updated:", updatedUser);
+        };
+
+        // Listen for the 'userUpdated' event
+        userEventEmitter.on("userUpdated", handleUserUpdate);
+
+        // Clean up the event listener when the component is unmounted
+        return () => {
+          userEventEmitter.off("userUpdated", handleUserUpdate);
+        };
+      }, []);
+
+
+
+
+      useEffect(() => {
+        const handleUserUpdate = (updatedTasks: any) => {
+          // Update the state with the latest user data
+          
+          console.log("userTask", userTasks);
+          setUserTasks(updatedTasks);
+        };
+        
+        // Listen for the 'userUpdated' event
+        userEventEmitter.on("userTask", handleUserUpdate);
+
+        // Clean up the event listener when the component is unmounted
+        return () => {
+          userEventEmitter.off("userTask", handleUserUpdate);
+        };
+      }, []);
+
+      const claimReward = async(taskId : any)=>{
+       try {
+         await claimTaskReward(taskId);
+       } catch (error) {
+        console.log(error)
+       }
+      }
   return (
     <Box
       display={"flex"}
@@ -68,7 +169,7 @@ export default function Claim() {
             width={"auto"}
           >
             <Image src="/sunflower.webp" w={"15px"} />
-            <Text> 440 011 </Text>
+            <Text> {userDeets && userDeets.coins} </Text>
           </Flex>
         </Box>
 
@@ -93,7 +194,7 @@ export default function Claim() {
               position={"relative"}
               zIndex={1}
               mb={"30px"}
-              justifyContent={'space-between'}
+              justifyContent={"space-between"}
             >
               <Tab
                 color={"#fff"}
@@ -166,10 +267,10 @@ export default function Claim() {
               >
                 <TabPanels>
                   <TabPanel p={0}>
-                    <Reward />
+                    <Reward tasks={inviteTasks} userTasks={userTasks} refUsers={referredUsers} />
                   </TabPanel>
                   <TabPanel p={0}>
-                    <Challenges />
+                    <Challenges tasks={challengeTasks} userTasks={userTasks}  userCoins={userDeets && userDeets.coins} claimRewards={claimReward}/>
                   </TabPanel>
                 </TabPanels>
               </Box>

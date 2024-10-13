@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, Icon } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Icon } from "@chakra-ui/react";
 import "../index.css";
 import { FaYoutube } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";

@@ -10,18 +10,7 @@ import { useUserAPI } from "../hooks/useUserApi";
 import { initUtils } from '@telegram-apps/sdk';
 
 export default function Friends({userData, token}: {userData: any, token: any}) {
-  const FriendList = [
-  {
-    name: "Habibilord",
-    level: "Bronze",
-    funds: "4 000",
-  },
-  {
-    name: "Cryptodray",
-    level: "Platinum",
-    funds: "500 000",
-  },
-]
+
 
 
   const [referredUser, setReferredUsers] = useState<any[]>([]);
@@ -133,7 +122,7 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
               gap={1}
               px={"20px"}
             >
-              0
+              {referredUser ? referredUser.length : 0}
               <Text fontSize={"14px"} mt={"8px"}>
                 FRENS
               </Text>
@@ -194,7 +183,7 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
                 </Button>
             </Flex>
             <Flex justifyContent={'center'} alignItems={'center'} mt={5} flexDirection={'column'} gap={5}>
-              {FriendList.map((friend) => {
+              {referredUser && referredUser.length > 0 && referredUser.map((friend) => {
                 return(
 
               <Flex width={'100%'} h={'70px'} borderRadius={'10px'} alignItems={'center'} px={'10px'} bg={'#2b2b2be2'} justifyContent={'space-between'}>
@@ -205,17 +194,14 @@ export default function Friends({userData, token}: {userData: any, token: any}) 
                 </Box>
                 <Box>
                 <Text fontSize={'14px'}>
-                  {friend.name}
-                </Text>
-                <Text fontSize={'11px'} textAlign={'left'} color={'#ffffff9e'}>
-                  {friend.level}
+                  {friend.username}
                 </Text>
                 </Box>
                 </Flex>
 
                 <Flex alignItems={'center'} justifyContent={'center'} gap={2}>
                     <Text fontSize={'16px'} fontWeight={700}>
-                      {friend.funds}
+                      {friend.coins}
                     </Text>
                     <Text fontSize={'11px'}> SUNF</Text>
                 </Flex>

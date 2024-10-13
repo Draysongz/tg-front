@@ -1,48 +1,45 @@
 import { Box, Flex, Text, Image, Button } from "@chakra-ui/react";
-import '../index.css'
-export default function Reward() {
-      const RewardList = [
-        {
-          name: " 3 ",
-          amount: "50 000",
-          progress: "50",
-        },
-        {
-          name: " 5 ",
-          amount: "150K",
-          progress: "20",
-        },
-        {
-          name: " 10 ",
-          amount: "250K",
-          progress: "10",
-        },
-        {
-          name: " 25 ",
-          amount: "500K",
-          progress: "5",
-        },
-        {
-          name: " 50 ",
-          amount: "1M",
-          progress: "1",
-        },
-      ];
+import "../index.css";
 
-    return (
-      <Flex
-        justifyContent={"center"}
-        alignItems={"center"}
-        mt={5}
-        flexDirection={"column"}
-        gap={5}
-      >
-        {RewardList.map((reward) => {
+export default function Reward({
+  tasks,
+  userTasks,
+  refUsers,
+}: {
+  tasks: any;
+  userTasks: any;
+  refUsers: any[];
+}) {
+  // Get user's progress for the given task
+  const getUserTaskProgress = (taskId: any) => {
+    return userTasks.find((userTask: any) => userTask.taskId === taskId);
+  };
+
+  return (
+    <Flex
+      justifyContent={"center"}
+      alignItems={"center"}
+      mt={5}
+      flexDirection={"column"}
+      gap={5}
+    >
+      {tasks && tasks.length > 0 &&
+        tasks.map((task: any, index: number) => {
+          const userTask = getUserTaskProgress(task.id);
+          const isClaimed = userTask ? userTask.claimed : false;
+
+          // Calculate progress based on referrals and required invites
+          const referralCount = refUsers && refUsers.length; // Number of referred users
+          const requiredInvites = task.requiredInvites || 0; // The number of invites required to complete the task
+          const progress = requiredInvites
+            ? Math.min((referralCount / requiredInvites) * 100, 100) // Calculate the percentage, max at 100%
+            : 0;
+
           return (
             <Flex
+              key={index}
               width={"100%"}
               flexDirection={"column"}
-              //   h={"70px"}
               borderRadius={"10px"}
               alignItems={"center"}
               p={"20px 10px"}
@@ -68,7 +65,7 @@ export default function Reward() {
                   </Box>
                   <Box>
                     <Text fontSize={"18px"} color={"white"} fontWeight={800}>
-                      Invite{reward.name}friends
+                      {task.description}
                     </Text>
                     <Text
                       fontSize={"16px"}
@@ -76,7 +73,7 @@ export default function Reward() {
                       textAlign={"left"}
                       color={"white"}
                     >
-                      {reward.amount}
+                      {task.reward}
                     </Text>
                   </Box>
                 </Flex>
@@ -87,30 +84,32 @@ export default function Reward() {
                   fontSize={"22px"}
                   fontWeight={800}
                   borderRadius={"10px"}
-                  bg={"rgb(33 33 33)"}
-                  color={"rgb(129 129 129)"}
+                  bg={isClaimed ? "gray" : "rgb(33 33 33)"}
+                  color={isClaimed ? "white" : "rgb(129 129 129)"}
+                  disabled={isClaimed || progress < 100} 
                 >
-                  Claim
+                  {isClaimed ? "Claimed" : "Claim"}
                 </Button>
               </Box>
+
               <Flex alignItems={"center"} borderRadius={"20px"} w={"100%"}>
                 <Box
-                  className="w-full h-2  rounded-full flex"
+                  className="w-full h-2 rounded-full flex"
                   bg={"rgb(29 29 29)"}
                   p={"7px 3px"}
                   justifyContent={"left"}
                   alignItems={"center"}
                 >
                   <Box
-                    className=" h-2 rounded-full"
+                    className="h-2 rounded-full"
                     bg={"rgb(190 128 47)"}
-                    style={{ width: `${reward.progress}%` }}
+                    style={{ width: `${progress}%` }}
                   ></Box>
                 </Box>
               </Flex>
             </Flex>
           );
         })}
-      </Flex>
-    );
+    </Flex>
+  );
 }
