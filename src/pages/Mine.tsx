@@ -180,7 +180,9 @@ const Mine: React.FC<mineProps> = ({userData, token}) => {
               className="bg-[#43433b]/[0.6]"
               px={2}
             >
-              <Image src={binanceLogo} w={{ base: "20px", sm: "32px" }} />
+              <Link to={'/exchange'}> 
+              <Image src="/coinConvert.svg" w={{ base: "20px", sm: "24px" }} />
+              </Link>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
               <Box alignItems={"center"} textAlign={"center"}>
                 <Text color={"#85827d"} fontSize={"12px"}>

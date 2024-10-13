@@ -290,7 +290,7 @@ useEffect(() => {
               px={2}
             >
               <Link to={'/exchange'}> 
-              <Image src="/coinConvert.svg" w={{ base: "20px", sm: "32px" }} />
+              <Image src="/coinConvert.svg" w={{ base: "20px", sm: "24px" }} />
               </Link>
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
               <Box alignItems={"center"} textAlign={"center"}>

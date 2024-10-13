@@ -179,7 +179,7 @@ const [points, setPoints] = useState(0);
               className="bg-[#43433b]/[0.6]"
               px={2}
             >
-              <Image src="/coinConvert.svg" w={{ base: "20px", sm: "32px" }} />
+              <Image src="/coinConvert.svg" w={{ base: "20px", sm: "24px" }} />
               <Box h={"32px"} w={"2px"} bg={"#43433b"} mx={2}></Box>
               <Box alignItems={"center"} textAlign={"center"}>
                 <Text color={"#85827d"} fontSize={"12px"}>

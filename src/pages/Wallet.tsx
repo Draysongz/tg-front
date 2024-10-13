@@ -176,10 +176,12 @@ const Wallet: React.FC = () => {
             display={"flex"}
             flexDirection={"column"}
           >
+            <Link to={'/convert'} className="w-[100] items-center justify-center flex flex-col">
             <Image src="/convert.webp" w={"24px"} />
             <Text fontSize={"12px"} margin={"4px 0px 0px"}>
               Swap
             </Text>
+            </Link>
           </Box>
           <Box
             bg={"#a4a4a433"}
