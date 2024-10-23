@@ -68,7 +68,7 @@ const useCardAPI = (userToken: string) => {
     userEventEmitter.emit('userUpdated', user);
   }, [user])
 
-  const baseURL = 'https://5a59-102-88-36-176.ngrok-free.app/api'
+  const baseURL = 'https://2558-105-112-29-195.ngrok-free.app/api'
 
   // Function to fetch cards by category
   const getCardsByCategory = async (category: string) => {
