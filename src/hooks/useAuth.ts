@@ -7,7 +7,7 @@ interface UseUserLoginProps {
   loading: boolean;
 }
 
-const baseURL = 'https://2558-105-112-29-195.ngrok-free.app/api'
+const baseURL = 'https://034e-105-112-206-255.ngrok-free.app/api'
 
 // Custom Hook for handling user login
 export const useUserLogin = (initData: string, referralCode?: string): UseUserLoginProps => {
